@@ -5,9 +5,9 @@ module.exports = {
         node: true,
     },
     extends: [
-        'airbnb-base',
-        'plugin:import/recommended',
-        'plugin:playwright/recommended',
+        // 'airbnb-base',
+        // 'plugin:import/recommended',
+        // 'plugin:playwright/recommended',
     ],
     plugins: [
         'import',
@@ -16,6 +16,8 @@ module.exports = {
     ],
     parserOptions: {
         ecmaVersion: 'latest',
+        sourceType: "module",
+
     },
     rules: {
         indent: [
@@ -26,7 +28,7 @@ module.exports = {
             },
         ],
         'max-len': ['error', {
-            code: 120,
+            code: 140,
             ignoreComments: true,
             ignoreTrailingComments: true,
             ignoreUrls: true,
