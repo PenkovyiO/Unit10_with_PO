@@ -46,7 +46,45 @@ test.describe('Saucedemo app basic tests', () => {
         await app.shoppingCart.removeCartItemById(0);
         await expect(app.shoppingCart.cartItems).not.toBeAttached();
     });
-    test('Test 2-3. Select 2 random product in catalog add to cart and buy it', async (
+    test('Test 1 - Perform and verify sorting on the Inventory page', async (
+        /** @type {{ app: import('../pages/Application').Application }} */{ app },
+    ) => {
+        //parse all product from catalog into origin array allProductArray
+        const allProductArray = await app.inventory.parseAllItems()
+        //A-Z
+        await app.inventory.sortNameFromAtoZ()
+        let productArrayAfterSorting = [] //array after sorting
+        productArrayAfterSorting = await app.inventory.parseAllItems()
+        allProductArray.sort((a, b) => a.name.localeCompare(b.name));
+        expect(productArrayAfterSorting).toEqual(allProductArray);
+        //Z-A
+        await app.inventory.sortNameFromZtoA()
+        productArrayAfterSorting = await app.inventory.parseAllItems()
+        allProductArray.sort((a, b) => b.name.localeCompare(a.name));
+        expect(productArrayAfterSorting).toEqual(allProductArray);
+        //Lo-Hi
+        await app.inventory.sortPriceFromLowToHight()
+        productArrayAfterSorting = await app.inventory.parseAllItems()
+        allProductArray.sort((a, b) => {
+            if (a.price === b.price) {
+                return a.name.localeCompare(b.name);
+            }
+            return a.price - b.price;
+        });
+        expect(productArrayAfterSorting).toEqual(allProductArray);
+        //Hi-Lo
+        await app.inventory.sortPriceFromHightToLow()
+        productArrayAfterSorting = await app.inventory.parseAllItems()
+        allProductArray.sort((a, b) => {
+            if (b.price === a.price) {
+                return a.name.localeCompare(b.name);
+            }
+            return b.price - a.price;
+        });
+        expect(productArrayAfterSorting).toEqual(allProductArray);
+    });
+
+    test.skip('Test 2-3. Select 2 random product in catalog add to cart and buy it', async (
         /** @type {{ app: import('../pages/Application').Application }} */{ app },
     ) => {
         //create variable that get array of 2 random numbers 

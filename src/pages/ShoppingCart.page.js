@@ -91,9 +91,10 @@ export class ShoppingCartPage extends BaseSwagLabPage {
     }
 
     async taxCalculate(productArray){
-        let tax = await this.itemTotalPrice(productArray) * 0.08
-
-        return Number(tax.toFixed(2))
+        const taxRate = 0.08
+        const tax = await this.itemTotalPrice(productArray) * taxRate
+        const roundTax = Number(tax.toFixed(2))
+        return roundTax
     }
 
     async calculateTotal(productArray){
